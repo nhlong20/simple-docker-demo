@@ -1,4 +1,5 @@
 version: "3.9"
+
 services:
   db:
     image: mysql
@@ -12,29 +13,39 @@ services:
     container_name: golang_db
     volumes:
       - mysql_data:/var/lib/mysql
+
   api:
     image: nhlong/backend
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     depends_on:
       - db
-    container_name: golang_app
     environment:
       DB_CONN_STR: "btcn_03:19e5a718a54a9fe0559dfbce6908@tcp(golang_db:3306)/btcn_03?charset=utf8mb4&parseTime=True&loc=Local"
     build:
       context: ./backend
+
+  balancer:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api   
+    ports:
+      - "4000:4000"
+
   fe: 
     image: nhlong/frontend
     ports:
       - "80:80"
     depends_on:
       - api
-    environment:
-      API_ENDPOINT: golang_db/v1/
     container_name: react_app
     build:
       context: ./frontend
       dockerfile: ./Dockerfile.prod
+      args:
+        API_ENDPOINT: http://localhost:4000/v1/
 
 volumes:
   mysql_data:

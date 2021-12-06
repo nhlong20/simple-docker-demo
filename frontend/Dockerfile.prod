@@ -1,9 +1,13 @@
 # Stage 1 - the build-deps
-FROM node:14 as build-deps
+FROM node:14.16.0-alpine3.10 as build-deps
 WORKDIR /app
 COPY  ["package.json", "package-lock.json", "node_modules", "."]
 COPY ./public .
 COPY . .
+# Get build argument and set environment variable
+ARG API_ENDPOINT
+ENV REACT_APP_API_ENDPOINT=$API_ENDPOINT
+# Build react-app
 RUN npm run build
 
 # Stage 2 - the production environment
