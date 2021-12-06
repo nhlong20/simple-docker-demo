@@ -7,6 +7,6 @@
 - Run these following commands:
 ```
 docker-compose -d up db
-docker-compose -d up backend
-docker-compose -d up frontend
+docker-compose -d up api
+docker-compose -d up fe
 ```
