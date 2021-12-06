@@ -8,5 +8,9 @@
 ```
 docker-compose up -d db
 docker-compose up -d api
+docker-compose up -d balancer
 docker-compose up -d fe
 ```
+
+## View
+- Access `http://localhost` to view app
