@@ -6,7 +6,7 @@
 ##  Build with docker
 - Run these following commands:
 ```
-docker-compose -d up db
-docker-compose -d up api
-docker-compose -d up fe
+docker-compose up -d db
+docker-compose up -d api
+docker-compose up -d fe
 ```
